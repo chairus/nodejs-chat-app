@@ -17,6 +17,16 @@ app.use(routes);
 io.on('connection', (socket) => { // In this case we are listening for events that wants to connect to the server
     console.log('New user connected');
 
+    socket.on('createMessage', (newMessage) => {
+        console.log('New message received', newMessage);
+
+        socket.emit('newMessage', {
+            from: newMessage.from,
+            text: newMessage.text,
+            createdAt: new Date().toDateString()
+        });
+    });
+
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
