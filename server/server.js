@@ -19,8 +19,11 @@ io.on('connection', (socket) => { // In this case we are listening for events th
 
     socket.on('createMessage', (newMessage) => {
         console.log('New message received', newMessage);
-
-        socket.emit('newMessage', {
+        /*
+            NOTE: socket.emit() only emit/send messages to only one specific connection, whereas
+                  io.emit() send messages to all users that are currently connected to the server.
+         */
+        io.emit('newMessage', {
             from: newMessage.from,
             text: newMessage.text,
             createdAt: new Date().toDateString()
