@@ -22,7 +22,7 @@ io.on('connection', (socket) => { // In this case we are listening for events th
 
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user has joined'));
 
-    socket.on('createMessage', (newMessage) => {
+    socket.on('createMessage', (newMessage, callback) => {
         console.log('New message received:', newMessage);
         /*
             NOTE: socket.emit() only emit/send messages to only one specific connection, whereas
@@ -33,11 +33,7 @@ io.on('connection', (socket) => { // In this case we are listening for events th
                   emitted the event.
          */
         io.emit('newMessage', generateMessage(newMessage.from, newMessage.text));
-        // socket.broadcast.emit('newMessage', {
-        //     from: newMessage.from,
-        //     text: newMessage.text,
-        //     createdAt: new Date().toDateString()
-        // });
+        callback('This is from the server'); // Send acknowledgement to the client that the server has successfully received the message
     });
 
     socket.on('disconnect', () => {
