@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
-var { generateMessage } = require('./utils/message')
+var { generateMessage, generateLocationMessage } = require('./utils/message')
 
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -34,6 +34,10 @@ io.on('connection', (socket) => { // In this case we are listening for events th
          */
         io.emit('newMessage', generateMessage(newMessage.from, newMessage.text));
         callback('This is from the server'); // Send acknowledgement to the client that the server has successfully received the message
+    });
+
+    socket.on('createLocationMessage', (coords) => {
+        io.emit('newLocationMessage', generateLocationMessage('User', coords.latitude, coords.longitude));
     });
 
     socket.on('disconnect', () => {
