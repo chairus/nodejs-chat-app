@@ -33,7 +33,7 @@ io.on('connection', (socket) => { // In this case we are listening for events th
                   emitted the event.
          */
         io.emit('newMessage', generateMessage(newMessage.from, newMessage.text));
-        callback('This is from the server'); // Send acknowledgement to the client that the server has successfully received the message
+        callback(); // Send acknowledgement to the client that the server has successfully received the message
     });
 
     socket.on('createLocationMessage', (coords) => {
