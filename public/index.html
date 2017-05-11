@@ -24,6 +24,33 @@
                 <button type="button" id="btn-send-location">Send location</button>
             </div>
         </div>
+        <!-- HTML template for regular messages -->
+        <script id="message-template" type="text/template">
+            <li class="message">
+                <div class="message__title">
+                    <h4>{{ from }}</h4>
+                    <span>{{ timestamp }}</span>
+                </div>
+                <div class="message__body">
+                    <p>{{ text }}</p>
+                </div>
+            </li>
+        </script>
+
+        <!-- HTML template for location messages -->
+        <script id="location-message-template" type="text/template">
+            <li class="message">
+                <div class="message__title">
+                    <h4>{{ from }}</h4>
+                    <span>{{ timestamp }}</span>
+                </div>
+                <div class="message__body">
+                    <p>
+                        <a href="{{ url }}" target="_blank">My current location</a>
+                    </p>
+                </div>
+            </li>
+        </script>
 
         <!-- SCRIPTS -->
         <script src="/js/lib/jquery-3.2.1.min.js"
@@ -33,6 +60,8 @@
         <script src="/js/index.js"
                 type="text/javascript" charset="utf-8"></script>
         <script src="/js/lib/moment.js"
+                type="text/javascript" charset="utf-8"></script>
+        <script src="/js/lib/mustache.js"
                 type="text/javascript" charset="utf-8"></script>
     </body>
 </html>

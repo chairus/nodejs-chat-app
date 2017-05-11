@@ -41,7 +41,7 @@ io.on('connection', (socket) => { // In this case we are listening for events th
     });
 
     socket.on('disconnect', () => {
-        // console.log('Client disconnected');
+        console.log('Client disconnected');
         socket.broadcast.emit('newMessage', generateMessage('Admin', 'User has left the chat room'))
     });
 });
