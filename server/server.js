@@ -23,7 +23,13 @@ io.on('connection', (socket) => { // In this case we are listening for events th
 
     socket.on('join', (params, callback) => {
         if (!isRealString(params.name) || !isRealString(params.room)) {
-            return callback('Name and room name are required.')
+            return callback('Name and room name are required.');
+        }
+
+        // Check for duplicate name in the same room
+        var dupName = users.getUserList(params.room).find((user) => user === params.name);
+        if (dupName) {
+            return callback('Name is already in use.');
         }
 
         socket.join(params.room);

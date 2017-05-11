@@ -18,13 +18,14 @@ function scrollToBottom() {
 
 socket.on('connect', function() {
     var params = $.deparam(window.location.search);
+    params.room = params.room.toLowerCase();    // Making sure that room name are case insensitive
 
     socket.emit('join', params, function(err) {
         if (err) {
             alert(err);
             window.location.href = '/';
         } else {
-            
+
         }
     });
 });
