@@ -38,6 +38,7 @@ io.on('connection', (socket) => { // In this case we are listening for events th
 
     socket.on('createMessage', (newMessage, callback) => {
         console.log('New message received:', newMessage);
+        var user = users.getUser(socket.id);
         /*
             NOTE: socket.emit() only emit/send messages to only one specific connection, whereas
                   io.emit() send messages to all clients that are currently connected to the server,
@@ -46,12 +47,19 @@ io.on('connection', (socket) => { // In this case we are listening for events th
                   words the server only emits the event to all connected clients except the client that
                   emitted the event.
          */
-        io.emit('newMessage', generateMessage(newMessage.from, newMessage.text));
+
+        if (user && isRealString(newMessage.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, newMessage.text));
+        }
         callback(); // Send acknowledgement to the client that the server has successfully received the message
     });
 
     socket.on('createLocationMessage', (coords) => {
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        var user = users.getUser(socket.id);
+
+        if (user) {
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
     });
 
     socket.on('disconnect', () => {

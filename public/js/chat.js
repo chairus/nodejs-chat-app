@@ -24,7 +24,7 @@ socket.on('connect', function() {
             alert(err);
             window.location.href = '/';
         } else {
-            // console.log('No error');
+            
         }
     });
 });
@@ -75,7 +75,6 @@ $('#message-form').on('submit', function (e) {
     var messageTextbox = $('[name=message]');
 
     socket.emit('createMessage', {
-        from: 'User',
         text: messageTextbox.val()
     }, function () {    // This callback function is called once the client received acknowledgement from server
         messageTextbox.val('');
