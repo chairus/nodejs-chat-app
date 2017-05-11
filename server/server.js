@@ -27,7 +27,7 @@ io.on('connection', (socket) => { // In this case we are listening for events th
         }
 
         // Check for duplicate name in the same room
-        var dupName = users.getUserList(params.room).find((user) => user === params.name);
+        var dupName = users.getUserList(params.room).find((user) => user.toLowerCase() === params.name.toLowerCase());
         if (dupName) {
             return callback('Name is already in use.');
         }
