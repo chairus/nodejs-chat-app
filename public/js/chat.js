@@ -1,4 +1,4 @@
-var socket = io();   // Initiate request from client to server to open up a web socket and keep it open
+var socket = io(); // Initiate request from client to server to open up a web socket and keep it open
 
 function scrollToBottom() {
     // Selectors
@@ -11,22 +11,20 @@ function scrollToBottom() {
     var newMessageHeight = newMessage.innerHeight();
     var lastMessageHeight = newMessage.prev().innerHeight();
 
-    if ((clientHeight + scrollTop + newMessageHeight + lastMessageHeight) >= scrollHeight ) {
+    if ((clientHeight + scrollTop + newMessageHeight + lastMessageHeight) >= scrollHeight) {
         messages.scrollTop(scrollHeight);
     }
 }
 
 socket.on('connect', function() {
     var params = $.deparam(window.location.search);
-    params.room = params.room.toLowerCase();    // Making sure that room name are case insensitive
+    params.room = params.room.toLowerCase(); // Making sure that room name are case insensitive
 
     socket.emit('join', params, function(err) {
         if (err) {
             alert(err);
             window.location.href = '/';
-        } else {
-
-        }
+        } else {}
     });
 });
 
@@ -70,14 +68,14 @@ socket.on('newLocationMessage', function(message) {
     scrollToBottom();
 });
 
-$('#message-form').on('submit', function (e) {
+$('#message-form').on('submit', function(e) {
     e.preventDefault();
 
     var messageTextbox = $('[name=message]');
 
     socket.emit('createMessage', {
         text: messageTextbox.val()
-    }, function () {    // This callback function is called once the client received acknowledgement from server
+    }, function() { // This callback function is called once the client received acknowledgement from server
         messageTextbox.val('');
     });
 })
@@ -91,13 +89,13 @@ locationButton.on('click', function(e) {
 
     locationButton.attr('disabled', true).html('Sending location...');
 
-    navigator.geolocation.getCurrentPosition(function (position) {
+    navigator.geolocation.getCurrentPosition(function(position) {
         socket.emit('createLocationMessage', {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         });
         locationButton.removeAttr('disabled').html('Send location');
-    }, function () {
+    }, function() {
         alert('Unable to fetch location.');
         locationButton.removeAttr('disabled').html('Send location');
     });

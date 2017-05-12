@@ -1,5 +1,5 @@
 const expect = require('expect');
-const { Users } = require('./users');
+const {Users} = require('./users');
 
 describe('Users', () => {
     var users = new Users();
@@ -10,18 +10,15 @@ describe('Users', () => {
                 id: '456',
                 name: 'Girth',
                 room: 'Naruto Fans'
-            },
-            {
+            }, {
                 id: '88',
                 name: 'Jakow',
                 room: 'Russia Fans'
-            },
-            {
+            }, {
                 id: '9',
                 name: 'Konohamaru',
                 room: 'Naruto Fans'
-            },
-            {
+            }, {
                 id: '1',
                 name: 'Sakura',
                 room: 'Sasuke Fans'
@@ -52,11 +49,7 @@ describe('Users', () => {
     it('should return the name of a user with the specific id', () => {
         var user = users.getUser('88');
 
-        expect(user).toEqual({
-            id: '88',
-            name: 'Jakow',
-            room: 'Russia Fans'
-        });
+        expect(user).toEqual({id: '88', name: 'Jakow', room: 'Russia Fans'});
     });
 
     it('should not return the name of a user not in the \'users\' array', () => {
@@ -69,11 +62,7 @@ describe('Users', () => {
         var user = users.removeUser('456');
 
         expect(users.users.length).toBe(3);
-        expect(users.users).toNotInclude({
-            id: '456',
-            name: 'Girth',
-            room: 'Naruto Fans'
-        });
+        expect(users.users).toNotInclude({id: '456', name: 'Girth', room: 'Naruto Fans'});
     });
 
     it('should not remove a user with the wrong id', () => {
@@ -81,5 +70,11 @@ describe('Users', () => {
 
         expect(users.users.length).toBe(4);
         expect(user).toNotExist();
+    });
+
+    it('should return the list of created rooms', () => {
+        var rooms = users.getRoomList();
+
+        expect(rooms).toEqual(['Naruto Fans', 'Russia Fans', 'Sasuke Fans']);
     });
 })

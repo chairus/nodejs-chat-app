@@ -18,12 +18,20 @@
                 </div>
                 <div class="form-field">
                     <label>Room name</label>
-                    <input type="text" name="room" placeholder="e.g. Project Room">
+                    <input list="rooms" name="room" placeholder="e.g. Project Group">
                 </div>
                 <div class="form-field">
                     <button type="submit">Join</button>
                 </div>
             </form>
         </div>
+
+        <!-- SCRIPTS -->
+        <script src="/js/lib/jquery-3.2.1.min.js"
+                type="text/javascript" charset="utf-8"></script>
+        <script src="/socket.io/socket.io.js"
+                type="text/javascript" charset="utf-8"></script>
+        <script src="/js/index.js"
+                type="text/javascript" charset="utf-8"></script>
     </body>
 </html>

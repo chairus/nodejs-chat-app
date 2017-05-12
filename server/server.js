@@ -3,14 +3,14 @@ const path = require('path');
 const socketIO = require('socket.io');
 const http = require('http');
 const routes = require('../routes/index');
-const { isRealString } = require('./utils/validation');
+const {isRealString} = require('./utils/validation');
 const port = process.env.PORT || 3000;
 
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
-var { generateMessage, generateLocationMessage } = require('./utils/message')
-const { Users } = require('./utils/users');
+var {generateMessage, generateLocationMessage} = require('./utils/message')
+const {Users} = require('./utils/users');
 var users = new Users();
 
 app.use(express.static(path.join(__dirname, '../public')));
@@ -20,6 +20,8 @@ app.use(routes);
 /* Register an event listener to listen for specific events and do something if an event occurs. */
 io.on('connection', (socket) => { // In this case we are listening for events that wants to connect to the server
     console.log('New user connected');
+
+    socket.emit('updateRoomList', users.getRoomList());
 
     socket.on('join', (params, callback) => {
         if (!isRealString(params.name) || !isRealString(params.room)) {
@@ -38,7 +40,7 @@ io.on('connection', (socket) => { // In this case we are listening for events th
         io.to(params.room).emit('updateUserList', users.getUserList(params.room));
 
         socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
-        socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${ params.name } has joined`));
+        socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined`));
         callback();
     });
 
@@ -74,7 +76,7 @@ io.on('connection', (socket) => { // In this case we are listening for events th
 
         if (user) {
             socket.broadcast.to(user.room).emit('updateUserList', users.getUserList(user.room));
-            socket.broadcast.to(user.room).emit('newMessage', generateMessage('Admin', `${ user.name } has left`));
+            socket.broadcast.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left`));
         }
 
     });

@@ -5,13 +5,12 @@
 //     room
 // }
 
-
 class Users {
-    constructor () {
+    constructor() {
         this.users = [];
     }
 
-    addUser (id, name, room) {
+    addUser(id, name, room) {
         var user = {
             id,
             name,
@@ -21,7 +20,7 @@ class Users {
         return user;
     }
 
-    removeUser (id) {
+    removeUser(id) {
         // Find the element in the 'users' array
         var index = this.users.findIndex((user) => {
             return id == user.id;
@@ -36,7 +35,7 @@ class Users {
         return removedUser;
     }
 
-    getUser (id) {
+    getUser(id) {
         var user = this.users.find((user) => {
             return id === user.id;
         })
@@ -44,7 +43,7 @@ class Users {
         return user;
     }
 
-    getUserList (room) {
+    getUserList(room) {
         var users = this.users.filter((user) => {
             return room === user.room;
         });
@@ -55,9 +54,23 @@ class Users {
 
         return nameList;
     }
+
+    getRoomList() {
+        return this.users.reduce((rooms, outerCurr) => {
+            var dupRoom = rooms.find((innerCurr) => {
+                return innerCurr === outerCurr.room
+            });
+            if (!dupRoom) {
+                rooms.push(outerCurr.room);
+            }
+            return rooms;
+        }, []);
+    }
 }
 
-module.exports = { Users };
+module.exports = {
+    Users
+};
 
 // class Person {
 //     constructor (name, age) {
